@@ -8,6 +8,7 @@ import Generator from '../components/Generator';
 const API_ORIGIN = 'https://atcoder-badges.now.sh';
 
 const AtCoderURL = (name: string) => `https://atcoder.jp/users/${name}`;
+const AtCoderHeuristicURL = (name: string) => `https://atcoder.jp/users/${name}?contestType=heuristic`;
 const CodeforcesURL = (name: string) => `https://codeforces.com/profile/${name}`;
 const dataLink = (type: string, name: string) => API_ORIGIN + `/api/${type}/json/${name}`;
 const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
@@ -39,6 +40,7 @@ export default function() {
                 <UsernameInput onSubmit={onSubmit} />
                 <hr />
                 <Generator title="AtCoder" tip={username} link={AtCoderURL(username)} badge={shieldsioLink(dataLink('atcoder', username))} />
+                <Generator title="AtCoder(Heuristic)" tip={username} link={AtCoderHeuristicURL(username)} badge={shieldsioLink(dataLink('atcoderHeuristic', username))} />
                 <Generator title="Codeforces" tip={username} link={CodeforcesURL(username)} badge={shieldsioLink(dataLink('codeforces', username))} />
             </Container>
         </>

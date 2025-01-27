@@ -1,6 +1,7 @@
 type User {
     name: String! @unique
     atcoderRate: Int
+    atcoderHeuristicRate: Int
     codeforcesRate: Int
     timestamp: Time!
 }

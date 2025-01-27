@@ -4,6 +4,7 @@ export interface UserCache {
     _id: string,
     name: string,
     atcoderRate: number | null,
+    atcoderHeuristicRate: number | null,
     codeforcesRate: number | null,
     timestamp: string,
 }
@@ -25,6 +26,7 @@ query FetchUser($name: String!) {
         _id
         name
         atcoderRate
+        atcoderHeuristicRate
         codeforcesRate
         timestamp
     }
@@ -37,40 +39,45 @@ export async function getUserCache(name: string) {
 }
 
 const registerQuery = `\
-mutation RegisterUser($name: String!, $atcoderRate: Int, $codeforcesRate: Int, $timestamp: Time!) {
+mutation RegisterUser($name: String!, $atcoderRate: Int, $atcoderHeuristicRate: Int, $codeforcesRate: Int, $timestamp: Time!) {
     createUser(data: {
       name: $name
       atcoderRate: $atcoderRate
+      atcoderHeuristicRate: $atcoderHeuristicRate
       codeforcesRate: $codeforcesRate
       timestamp: $timestamp
     }) {
       name
       atcoderRate
+      atcoderHeuristicRate
       codeforcesRate
       timestamp
     }
 }
 `;
 
-export async function registerUserCache(name: string, atcoderRate: number | null, codeforcesRate: number | null) {
+export async function registerUserCache(name: string, atcoderRate: number | null, atcoderHeuristicRate: number | null, codeforcesRate: number | null) {
     await client.request(registerQuery, {
         name,
         atcoderRate,
+        atcoderHeuristicRate,
         codeforcesRate,
         timestamp: new Date().toISOString(),
     });
 }
 
 const updateQuery = `\
-mutation UpdateUser($id: ID!, $name: String!, $atcoderRate: Int, $codeforcesRate: Int, $timestamp: Time!) {
+mutation UpdateUser($id: ID!, $name: String!, $atcoderRate: Int, $atcoderHeuristicRate: Int, $codeforcesRate: Int, $timestamp: Time!) {
     updateUser(id: $id, data: {
         name: $name
         atcoderRate: $atcoderRate
+        atcoderHeuristicRate: $atcoderHeuristicRate
         codeforcesRate: $codeforcesRate
         timestamp: $timestamp
     }) {
         name
         atcoderRate
+        atcoderHeuristicRate
         codeforcesRate
         timestamp
     }
@@ -82,6 +89,7 @@ export async function updateUserCache(cache: UserCache) {
         id: cache._id,
         name: cache.name,
         atcoderRate: cache.atcoderRate,
+        atcoderHeuristicRate: cache.atcoderHeuristicRate,
         codeforcesRate: cache.codeforcesRate,
         timestamp: new Date().toISOString(),
     });
